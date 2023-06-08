@@ -1,0 +1,96 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id 'org.jetbrains.kotlin.plugin.parcelize'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace 'com.example.taptopayandroid'
+    compileSdk latestSdkVersion
+
+    defaultConfig {
+        applicationId "com.example.taptopayandroid"
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        targetSdkVersion latestSdkVersion
+        buildConfigField "String", "EXAMPLE_BACKEND_URL", "\"${project.getProperty("EXAMPLE_BACKEND_URL").replaceAll("^[\"\\s]*|[\"\\s]*\$", "")}\""
+    }
+
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lint {
+        disable "IconLauncherShape"
+        disable "LogNotTimber"
+        disable "MergeRootFrame"
+        disable "TypographyEllipsis"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+
+ext {
+    androidx_lifecycle_version = '2.5.1'
+    kotlin_coroutines_version = '1.6.4'
+    okhttp_version = '4.10.0'
+    retrofit_version = '2.9.0'
+    stripeTerminalVersion = "2.17.1"
+}
+
+dependencies {
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation "com.google.android.material:material:1.6.1"
+    implementation "androidx.appcompat:appcompat:1.5.1"
+    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
+    // We are using Kotlin, and not Java 8, so do not use the recommended Java 8 library
+    //noinspection LifecycleAnnotationProcessorWithJava8
+    kapt "androidx.lifecycle:lifecycle-compiler:$androidx_lifecycle_version"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
+
+    // OK HTTP
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    // Stripe Terminal library
+    implementation "com.stripe:stripeterminal-localmobile:2.20.0"
+    implementation "com.stripe:stripeterminal-core:2.20.0"
+
+    // Leak canary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.9.1"
+}
