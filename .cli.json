@@ -1,0 +1,11 @@
+{
+  "name": "tap-to-pay-android-demo",
+  "configureDotEnv": true,
+  "integrations": [
+    {
+     "name": "main",
+      "clients": ["android-kotlin"],
+      "servers": []
+    }
+  ]
+}
